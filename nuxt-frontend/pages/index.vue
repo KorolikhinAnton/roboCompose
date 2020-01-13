@@ -123,7 +123,6 @@
                         if (!res.success)
                             return;
                         const { results, values } = res.data;
-                        console.log(values);
                         // return;
                         this.count = results;
                         this.entries = values;
