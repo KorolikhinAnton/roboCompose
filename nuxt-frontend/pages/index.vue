@@ -88,7 +88,6 @@
         computed: {
             fields () {
                 if (!this.model) return [];
-                let returnedVal = [{key: "fdfdfdfdf",value:"fdfd"}];
                 return this.model.solutions.map((item,index) => {
                     return {
                         key: index+1,
