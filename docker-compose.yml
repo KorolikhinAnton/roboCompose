@@ -21,8 +21,6 @@ services:
     ports:
       - 3000:3000
     environment:
-     - NODE_ENV=local
-     - ES_HOST=elasticsearch
      - NODE_PORT=3000
      - ELASTIC_URL=http://elasticsearch:9200
     volumes:
