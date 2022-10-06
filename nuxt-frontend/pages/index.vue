@@ -17,7 +17,7 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          DriverPack test A.Korolikhin
+          Robocash example symptoms A.Korolikhin
         </v-card-title>
         <v-card-text>
           Type the question and we'll find possible solutions:

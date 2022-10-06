@@ -1,5 +1,5 @@
-# DriverPack test task
-## docker-compose version 1.25.0
+# Docker compose Example usage
+## start
 To run type
 ```docker-compose up --build```
 

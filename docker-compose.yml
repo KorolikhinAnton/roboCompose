@@ -2,19 +2,22 @@ version: '3.6'
 
 services:
   nuxt:
-    image: node:10.15.3-alpine
+    build: 
+      context: ./nuxt-frontend
+      dockerfile: Dockerfile
+    image: "tqd-nuxt_image:latest"
     container_name: tqd-nuxt
-    build: ./nuxt-frontend
     restart: always
+    environment:
+      - NUXT_PORT=8000
     ports:
       - 8000:8000
-    networks:
-      - esnet
-    command: npm run start --prefix /web
+    command: npm run start
+
   api:
-    image: node:10.15.3-alpine
-    container_name: tqd-node
     build: ./server
+    image: "tqd-node_image:latest"
+    container_name: tqd-node
     ports:
       - 3000:3000
     environment:
@@ -30,10 +33,30 @@ services:
         - elasticsearch
     networks:
       - esnet
-    command: npm run start --prefix /usr/src/app
+    command: npm run start
+
+  migration:
+    build: 
+      context: ./migration
+      dockerfile: Dockerfile
+    image: "tqd-migrate_image:latest"
+    container_name: tqd-migrate
+    environment:
+     - ELASTIC_URL=http://elasticsearch:9200
+    volumes:
+      - ./migration/src/data:/usr/src/migration/src/data
+    links:
+        - elasticsearch
+    depends_on:
+        - elasticsearch
+    networks:
+      - esnet
+    profiles: ["migrate"]
+    command: npm run migrate
+
   elasticsearch:
     container_name: tqd-elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    image: korolikhinanton/elastic
     volumes:
       - esdata:/usr/share/elasticsearch/data
     environment:
@@ -42,9 +65,8 @@ services:
       - discovery.type=single-node
     logging:
       driver: none
-    ports:
-      - 9300:9300
-      - 9200:9200
+    expose:
+      - "9200"
     networks:
       - esnet
 
